@@ -49,8 +49,8 @@ WHERE product_name like '%Samsung%'
 -- 4.3. Товары, в которых есть ЦИФРЫ
 SELECT id, product_name, manufacturer, product_count, price 
 FROM mobile_phones
-WHERE product_name REGEXP '^[0-9]+$'
-	OR manufacturer REGEXP '^[0-9]+$';
+WHERE product_name REGEXP '[0-9]'
+	OR manufacturer REGEXP '[0-9]';
 
 -- 4.4. Товары, в которых есть ЦИФРА "8" 
 SELECT id, product_name, manufacturer, product_count, price 
