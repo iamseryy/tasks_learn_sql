@@ -108,12 +108,12 @@ FROM
 	) AS post_list;
     
 -- вариант 2
-SELECT DISTINCT staff_main.post
+SELECT DISTINCT staff_main.post AS post
 FROM staff AS staff_main
 WHERE EXISTS ( 
 				SELECT AVG(staff_sub.age) AS avg_age
 				FROM staff AS staff_sub
 				WHERE staff_sub.post = staff_main.post
-                HAVING avg_age < 30
+				HAVING avg_age < 30
             );
 
