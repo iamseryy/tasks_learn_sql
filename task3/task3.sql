@@ -74,7 +74,7 @@ SELECT COUNT(id) AS staff_count
 FROM staff
 WHERE 
 	post = 'Рабочий'
-    and age BETWEEN 24 AND 49;
+    AND age BETWEEN 24 AND 49;
 
 /*
 5. Найдите количество специальностей
