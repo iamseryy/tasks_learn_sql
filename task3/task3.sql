@@ -38,12 +38,12 @@ VALUES
 */
 
 -- в порядке убывания
-SELECT firstname, lastname, post, seniority, salary, age
+SELECT id, firstname, lastname, post, seniority, salary, age
 FROM staff
 ORDER BY salary DESC;
 
 -- в порядке возрастания
-SELECT firstname, lastname, post, seniority, salary, age
+SELECT id, firstname, lastname, post, seniority, salary, age
 FROM staff
 ORDER BY salary;
 
