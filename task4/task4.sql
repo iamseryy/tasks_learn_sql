@@ -13,13 +13,14 @@ WHERE
     
 -- 2.Определить кто больше поставил лайков (всего): мужчины или женщины. 
 SELECT 
-	(CASE 
-		WHEN (NOT EXISTS(SELECT likes.id FROM likes)) THEN 'no likes yet'
-        WHEN (
-				(	SELECT COUNT(likes.id)
-					FROM likes
-					JOIN profiles ON likes.user_id = profiles.user_id
-					WHERE profiles.gender = 'm') =
+	(
+		CASE 
+			WHEN (NOT EXISTS(SELECT likes.id FROM likes)) THEN 'no likes yet'
+			WHEN (
+					(	SELECT COUNT(likes.id)
+						FROM likes
+						JOIN profiles ON likes.user_id = profiles.user_id
+						WHERE profiles.gender = 'm') =
 												(	SELECT COUNT(likes.id)
 													FROM likes
 													JOIN profiles ON likes.user_id = profiles.user_id
