@@ -32,10 +32,10 @@ SELECT
 						FROM likes
 						JOIN profiles ON likes.user_id = profiles.user_id
 						WHERE profiles.gender = 'm') >
-													 (	SELECT COUNT(likes.id) 
-														FROM likes
-														JOIN profiles ON likes.user_id = profiles.user_id
-														WHERE profiles.gender = 'f')
+												(	SELECT COUNT(likes.id) 
+													FROM likes
+													JOIN profiles ON likes.user_id = profiles.user_id
+													WHERE profiles.gender = 'f')
 			) THEN 'man'
         
 			ELSE 'woman'
