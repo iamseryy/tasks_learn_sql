@@ -92,5 +92,3 @@ FROM (
 	)
 ) AS best_friend
 JOIN users ON best_friend.id = users.id;
-                            
-
