@@ -27,7 +27,7 @@ SELECT * FROM v_young_users;
 -- вариант решения 1
 WITH message_rating AS
 ( 
-SELECT 
+	SELECT 
 		CONCAT(users.firstname, ' ', users.lastname) AS user,
 		COUNT(messages.id) AS total_messages
 	FROM users
@@ -35,6 +35,7 @@ SELECT
 	GROUP BY user
     ORDER BY total_messages
 )
+
 SELECT
 	user,
     total_messages,
@@ -93,5 +94,5 @@ SELECT
 		body,
 		created_at,
         SEC_TO_TIME(TIMESTAMPDIFF(SECOND, LAG(created_at, 1, 0) OVER(ORDER BY created_at), created_at)) AS difference
-	FROM messages
-	ORDER BY created_at;
+FROM messages
+ORDER BY created_at;
