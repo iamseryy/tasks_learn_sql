@@ -62,5 +62,32 @@ DELIMITER ;
 
 CALL sp_set_user_old(9, @tran_result); 
 SELECT @tran_result;
-    
+ 
 
+/*
+2. Создайте хранимую функцию hello(), которая будет возвращать приветствие, 
+в зависимости от текущего времени суток. С 6:00 до 12:00 функция должна возвращать фразу "Доброе утро", 
+с 12:00 до 18:00 функция должна возвращать фразу "Добрый день", с 18:00 до 00:00 — "Добрый вечер", с 00:00 до 6:00 — "Доброй ночи".
+*/
+
+DROP FUNCTION IF EXISTS hello;
+DELIMITER //
+CREATE FUNCTION hello()
+RETURNS  VARCHAR(50) NO SQL 
+BEGIN
+	DECLARE current_hour INT;
+    SET  current_hour = HOUR(CURTIME());
+	CASE
+		WHEN current_hour BETWEEN 0 AND 5 THEN RETURN 'Доброй ночи';
+		WHEN current_hour BETWEEN 6 AND 11 THEN RETURN 'Доброе утро';
+		WHEN current_hour BETWEEN 12 AND 17 THEN RETURN 'Добрый день';
+		WHEN current_hour BETWEEN 18 AND 23 THEN RETURN 'Добрый вечер';
+	END CASE;
+END//
+DELIMITER ;
+
+SELECT hello();
+
+/*
+
+*/
