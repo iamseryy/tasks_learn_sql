@@ -89,5 +89,62 @@ DELIMITER ;
 SELECT hello();
 
 /*
-
+3. (по желанию)* Создайте таблицу logs типа Archive. 
+Пусть при каждом создании записи в таблицах users, 
+communities и messages в таблицу logs помещается время и дата создания записи, 
+название таблицы, идентификатор первичного ключа.
 */
+
+DROP TABLE IF EXISTS logs;
+CREATE TABLE logs(
+	created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    table_name VARCHAR(50),
+	entity_id INT UNSIGNED NOT NULL
+) ENGINE=ARCHIVE;
+
+DROP PROCEDURE IF EXISTS add_to_logs; 
+DELIMITER //
+CREATE PROCEDURE add_to_logs(table_name VARCHAR(50), entity_id INT)
+BEGIN
+	INSERT INTO logs (table_name, entity_id) VALUES (table_name, entity_id);
+END//
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS add_user_to_log;
+DELIMITER //
+CREATE TRIGGER add_user_to_log AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+	CALL add_to_logs('users', NEW.id);
+END//
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS add_community_to_log;
+DELIMITER //
+CREATE TRIGGER add_community_to_log AFTER INSERT ON communities
+FOR EACH ROW
+BEGIN
+	CALL add_to_logs('communities', NEW.id);
+END//
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS add_message_to_log;
+DELIMITER //
+CREATE TRIGGER add_message_to_log AFTER INSERT ON messages
+FOR EACH ROW
+BEGIN
+	CALL add_to_logs('messages', NEW.id);
+END//
+DELIMITER ;
+
+INSERT INTO users (firstname, lastname, email) VALUES
+('Name1', 'Last name1', 'name1@test.org'),
+('Name2', 'Last name2', 'name2@test.org');
+
+INSERT INTO communities (name) VALUES 
+('Test1'), 
+('Test2');
+
+INSERT INTO messages  (from_user_id, to_user_id, body, created_at) VALUES
+(1, 2, 'Test1',  DATE_ADD(NOW(), INTERVAL 1 MINUTE)),
+(2, 1, 'Test2',  DATE_ADD(NOW(), INTERVAL 3 MINUTE));
